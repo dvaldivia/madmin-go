@@ -139,6 +139,12 @@ func (z *ClusterResource) DecodeMsg(dc *msgp.Reader) (err error) {
 				err = msgp.WrapError(err, "TotalSize")
 				return
 			}
+		case "totalCapacity":
+			z.TotalCapacity, err = dc.ReadUint64()
+			if err != nil {
+				err = msgp.WrapError(err, "TotalCapacity")
+				return
+			}
 		case "onlineDrives":
 			z.OnlineDrives, err = dc.ReadInt()
 			if err != nil {
@@ -177,8 +183,8 @@ func (z *ClusterResource) DecodeMsg(dc *msgp.Reader) (err error) {
 // EncodeMsg implements msgp.Encodable
 func (z *ClusterResource) EncodeMsg(en *msgp.Writer) (err error) {
 	// check for omitted fields
-	zb0001Len := uint32(16)
-	var zb0001Mask uint16 /* 16 bits */
+	zb0001Len := uint32(17)
+	var zb0001Mask uint32 /* 17 bits */
 	_ = zb0001Mask
 	if z.Domains == nil {
 		zb0001Len--
@@ -360,6 +366,16 @@ func (z *ClusterResource) EncodeMsg(en *msgp.Writer) (err error) {
 			err = msgp.WrapError(err, "TotalSize")
 			return
 		}
+		// write "totalCapacity"
+		err = en.Append(0xad, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x61, 0x70, 0x61, 0x63, 0x69, 0x74, 0x79)
+		if err != nil {
+			return
+		}
+		err = en.WriteUint64(z.TotalCapacity)
+		if err != nil {
+			err = msgp.WrapError(err, "TotalCapacity")
+			return
+		}
 		// write "onlineDrives"
 		err = en.Append(0xac, 0x6f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x44, 0x72, 0x69, 0x76, 0x65, 0x73)
 		if err != nil {
@@ -388,8 +404,8 @@ func (z *ClusterResource) EncodeMsg(en *msgp.Writer) (err error) {
 func (z *ClusterResource) MarshalMsg(b []byte) (o []byte, err error) {
 	o = msgp.Require(b, z.Msgsize())
 	// check for omitted fields
-	zb0001Len := uint32(16)
-	var zb0001Mask uint16 /* 16 bits */
+	zb0001Len := uint32(17)
+	var zb0001Mask uint32 /* 17 bits */
 	_ = zb0001Mask
 	if z.Domains == nil {
 		zb0001Len--
@@ -466,6 +482,9 @@ func (z *ClusterResource) MarshalMsg(b []byte) (o []byte, err error) {
 		// string "totalSize"
 		o = append(o, 0xa9, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x53, 0x69, 0x7a, 0x65)
 		o = msgp.AppendUint64(o, z.TotalSize)
+		// string "totalCapacity"
+		o = append(o, 0xad, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x61, 0x70, 0x61, 0x63, 0x69, 0x74, 0x79)
+		o = msgp.AppendUint64(o, z.TotalCapacity)
 		// string "onlineDrives"
 		o = append(o, 0xac, 0x6f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x44, 0x72, 0x69, 0x76, 0x65, 0x73)
 		o = msgp.AppendInt(o, z.OnlineDrives)
@@ -609,6 +628,12 @@ func (z *ClusterResource) UnmarshalMsg(bts []byte) (o []byte, err error) {
 				err = msgp.WrapError(err, "TotalSize")
 				return
 			}
+		case "totalCapacity":
+			z.TotalCapacity, bts, err = msgp.ReadUint64Bytes(bts)
+			if err != nil {
+				err = msgp.WrapError(err, "TotalCapacity")
+				return
+			}
 		case "onlineDrives":
 			z.OnlineDrives, bts, err = msgp.ReadIntBytes(bts)
 			if err != nil {
@@ -655,7 +680,7 @@ func (z *ClusterResource) Msgsize() (s int) {
 	for za0002 := range z.PoolsLayout {
 		s += z.PoolsLayout[za0002].Msgsize()
 	}
-	s += 10 + msgp.IntSize + 11 + msgp.IntSize + 9 + msgp.IntSize + 12 + msgp.IntSize + 12 + msgp.IntSize + 13 + msgp.IntSize + 18 + msgp.IntSize + 10 + msgp.Uint64Size + 13 + msgp.IntSize + 14 + msgp.IntSize
+	s += 10 + msgp.IntSize + 11 + msgp.IntSize + 9 + msgp.IntSize + 12 + msgp.IntSize + 12 + msgp.IntSize + 13 + msgp.IntSize + 18 + msgp.IntSize + 10 + msgp.Uint64Size + 14 + msgp.Uint64Size + 13 + msgp.IntSize + 14 + msgp.IntSize
 	return
 }
 

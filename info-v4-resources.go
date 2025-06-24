@@ -82,7 +82,8 @@ type ClusterResource struct {
 	VersionCount      int `json:"versionCount" msg:"vc"`
 	DeleteMarkerCount int `json:"deleteMarkerCount" msg:"dc"`
 	// Usage
-	TotalSize uint64 `json:"totalSize" msg:"ts"`
+	TotalSize     uint64 `json:"totalSize" msg:"ts"`
+	TotalCapacity uint64 `json:"totalCapacity" msg:"tc"`
 	// Drives
 	OnlineDrives  int `json:"onlineDrives" msg:"od"`
 	OfflineDrives int `json:"offlineDrives" msg:"fd"`
